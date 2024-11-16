@@ -77,14 +77,14 @@ app.post('/api/deliveries', async (req, res) => {
        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
        RETURNING *`,
       [
-        collectionDay, collectionInstruction, collectionTime, contactAddress, 
-        deliveryDay, deliveryTime, driverInstruction, email, firstName, 
+        collectionDay, collectionInstruction, collectionTime, contactAddress,
+        deliveryDay, deliveryTime, driverInstruction, email, firstName,
         lastName, specialInstruction, JSON.stringify(services) // Storing services as a JSON string
       ]
     );
 
     // Return a success response with the created record
-    res.status(200).json({ message: 'Delivery saved successfully', delivery: result.rows[0] });
+    res.status(200).json({ message: 'Delivery saved successfully', delivery: result.rows[0], success: true });
   } catch (err) {
     console.error('Error saving delivery:', err);
     res.status(500).json({ error: 'Failed to save delivery' });
@@ -101,7 +101,7 @@ app.get('/api', async (req, res) => {
   try {
     // Query data from the 'deliveries' table
     const result = await pool.query('SELECT * FROM deliveries');
-    
+
     // Sending the data back as JSON to the frontend
     res.json({
       message: 'Data fetched successfully!',
