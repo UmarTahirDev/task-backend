@@ -59,7 +59,7 @@ app.post('/api/deliveries', async (req, res) => {
     deliveryDay,
     deliveryTime,
     driverInstruction,
-    email,
+    address,
     firstName,
     lastName,
     specialInstruction,
@@ -71,14 +71,14 @@ app.post('/api/deliveries', async (req, res) => {
     const result = await pool.query(
       `INSERT INTO deliveries (
           collection_day, collection_instruction, collection_time, contact_address, 
-          delivery_day, delivery_time, driver_instruction, email, first_name, 
+          delivery_day, delivery_time, driver_instruction, address, first_name, 
           last_name, special_instruction, services
        ) 
        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
        RETURNING *`,
       [
         collectionDay, collectionInstruction, collectionTime, contactAddress,
-        deliveryDay, deliveryTime, driverInstruction, email, firstName,
+        deliveryDay, deliveryTime, driverInstruction, address, firstName,
         lastName, specialInstruction, JSON.stringify(services) // Storing services as a JSON string
       ]
     );
