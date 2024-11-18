@@ -54,10 +54,8 @@ app.post('/api/deliveries', async (req, res) => {
   const {
     collectionDay,
     collectionInstruction,
-    collectionTime,
     contactAddress,
     deliveryDay,
-    deliveryTime,
     driverInstruction,
     address,
     firstName,
@@ -70,16 +68,16 @@ app.post('/api/deliveries', async (req, res) => {
     // Insert data into the 'deliveries' table
     const result = await pool.query(
       `INSERT INTO deliveries (
-          collection_day, collection_instruction, collection_time, contact_address, 
-          delivery_day, delivery_time, driver_instruction, address, first_name, 
-          last_name, special_instruction, services
+          collection_day, collection_instruction, address, 
+          delivery_day, driver_instruction, special_instruction, first_name, 
+          last_name, services
        ) 
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
        RETURNING *`,
       [
-        collectionDay, collectionInstruction, collectionTime, contactAddress,
-        deliveryDay, deliveryTime, driverInstruction, address, firstName,
-        lastName, specialInstruction, JSON.stringify(services) // Storing services as a JSON string
+        collectionDay, collectionInstruction, contactAddress, 
+        deliveryDay, driverInstruction, specialInstruction, 
+        firstName, lastName, JSON.stringify(services) // Store services as JSON string
       ]
     );
 
